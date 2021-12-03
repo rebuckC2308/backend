@@ -6,6 +6,8 @@ const port = 3000;
 
 const { Client } = require("pg");
 const client = new Client();
+client.connect();
+const bcrypt = require("bcryptjs");
 
 const requestBodyIsInvalid = (body) =>
   Object.keys(body).length !== 2 ||
@@ -24,21 +26,27 @@ app.get("/", (req, res) => {
 });
 
 app.post("/users", async (req, res) => {
-  await client.connect();
   const body = req.body;
 
   if (requestBodyIsInvalid(body)) {
     console.log("FAILURE");
     return res.status(400).send({ message: "Failure!" });
   }
-  console.log("SUCCESS");
 
-  await client.query('INSERT INTO users ("user", "password") VALUES ($1, $2)', [
-    body.email,
-    body.password,
-  ]);
+  const hashedPassword = bcrypt.hashSync(body.password, bcrypt.genSaltSync());
 
-  await client.end();
+  try {
+    await client.query(
+      'INSERT INTO users ("user", "password") VALUES ($1, $2)',
+      [body.email, hashedPassword]
+    );
+  } catch (err) {
+    if (err.code === "23505") {
+      const errorMessage =
+        "This username is already taken. Please enter a new Username";
+      return res.send(errorMessage);
+    }
+  }
 
   res.status(201).send({ message: `Created User: ${body.email}` });
 });
@@ -50,14 +58,27 @@ app.post("/login", async (req, res) => {
     console.log("FAILURE");
     return res.status(400).send({ message: "Failure!" });
   }
-  console.log("SUCCESS");
+
+  //   const query = {
+  //     name: "fetch-user",
+  //     text: "SELECT * FROM users WHERE user = $1",
+  //     values: [body.email],
+  //   };
+
+  //   client
+  //     .query(query)
+  //     .then((res) => console.log(res.rows[0]))
+  //     .catch((e) => console.error(e.stack));
+
+  console.log(body.email);
 
   const result = await client.query(
-    "SELECT (user, password) FROM users WHERE user = $1 AND password = $2 ",
-    [body.email, body.password]
+    "SELECT * FROM USERS WHERE USERS.user = $1",
+    [body.email]
   );
 
-  console.log(result);
+  console.log("got here!!!!");
+  res.json(result.rows);
 });
 
 app.listen(port, () => {
