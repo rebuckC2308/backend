@@ -11,7 +11,7 @@ const bcrypt = require("bcryptjs");
 
 const requestBodyIsInvalid = (body) =>
   Object.keys(body).length !== 2 ||
-  !Object.keys(body).includes("email") ||
+  !Object.keys(body).includes("username") ||
   !Object.keys(body).includes("password");
 
 app.use(express.json());
@@ -38,7 +38,7 @@ app.post("/users", async (req, res) => {
   try {
     await client.query(
       'INSERT INTO users ("user", "password") VALUES ($1, $2)',
-      [body.email, hashedPassword]
+      [body.username, hashedPassword]
     );
   } catch (err) {
     if (err.code === "23505") {
@@ -48,7 +48,7 @@ app.post("/users", async (req, res) => {
     }
   }
 
-  res.status(201).send({ message: `Created User: ${body.email}` });
+  res.status(201).send({ message: `Created User: ${body.username}` });
 });
 
 app.post("/login", async (req, res) => {
@@ -56,29 +56,34 @@ app.post("/login", async (req, res) => {
 
   if (requestBodyIsInvalid(body)) {
     console.log("FAILURE");
-    return res.status(400).send({ message: "Failure!" });
+    return res.status(422).send({ message: "Failure!" });
   }
 
-  //   const query = {
-  //     name: "fetch-user",
-  //     text: "SELECT * FROM users WHERE user = $1",
-  //     values: [body.email],
-  //   };
-
-  //   client
-  //     .query(query)
-  //     .then((res) => console.log(res.rows[0]))
-  //     .catch((e) => console.error(e.stack));
-
-  console.log(body.email);
+  console.log(body.username, body.password);
 
   const result = await client.query(
     "SELECT * FROM USERS WHERE USERS.user = $1",
-    [body.email]
+    [body.username]
   );
 
+  const [userObj] = result.rows;
+  //only one element in result.rows
+  console.log(userObj);
+  ({ id, user, password: passwordDB } = userObj);
+  console.log(id, user, passwordDB);
+
+  bcrypt.compare(body.password, passwordDB, (err, isMatch) => {
+    if (err) {
+      return console.log("ERROR LOGGING");
+    }
+    if (!isMatch) {
+      return console.log("ERROR LOGGING");
+    }
+    console.log("Logged in");
+  });
+
   console.log("got here!!!!");
-  res.json(result.rows);
+  res.status(200).send({ message: "success!" });
 });
 
 app.listen(port, () => {
