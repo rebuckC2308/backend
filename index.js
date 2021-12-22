@@ -37,11 +37,11 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  login.login(req, res);
+  login.login(req, res, client);
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`App listening at http://localhost:${port}`);
 });
 
 module.exports = app;

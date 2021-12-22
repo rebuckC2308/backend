@@ -4,10 +4,10 @@ const jwt = require("jsonwebtoken");
 const requestBodyIsInvalidPostRL = (body) =>
   Object.keys(body).length !== 2 ||
   !Object.keys(body).includes("username") ||
-  !Object.keys(body).includes("password") ||
-  !Object.keys(token);
+  !Object.keys(body).includes("password");
 
-async function login(res, req) {
+async function login(req, res, client) {
+  console.log({ body: req.body });
   const body = req.body;
   if (requestBodyIsInvalidPostRL(body)) {
     console.log("FAILURE");
