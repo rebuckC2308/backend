@@ -19,9 +19,11 @@ async function login(req, res, client) {
   const { password: passwordDB } = userObj;
   bcrypt.compare(body.password, passwordDB, (err, isMatch) => {
     if (err) {
+      // eslint-disable-next-line no-console
       return console.error('ERROR LOGGING');
     }
     if (!isMatch) {
+      // eslint-disable-next-line no-console
       return console.error('ERROR LOGGING');
     }
 
