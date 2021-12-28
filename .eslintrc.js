@@ -11,5 +11,6 @@ module.exports = {
     ecmaVersion: 13,
   },
   rules: {
+    'import/prefer-default-export': 'off',
   },
 };

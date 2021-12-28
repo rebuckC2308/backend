@@ -4,8 +4,8 @@ module.exports = {
   development: {
     client: 'postgresql',
     connection: {
-      database: 'restaurant',
-      user: 'postgres',
+      database: 'chilicontest',
+      user: 'jeremywarden',
       password: process.env.POSTGRES_PW,
       host: '127.0.0.1',
       port: '5432',

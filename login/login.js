@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { query } = require('../queries/queries');
 
 const requestBodyIsInvalidPostRL = (body) => Object.keys(body).length !== 2
   || !Object.keys(body).includes('username')
@@ -11,11 +12,11 @@ async function login(req, res, client) {
     return res.status(422).send({ message: 'Failure!' });
   }
   const result = await client.query(
-    'SELECT * FROM USERS WHERE USERS.user = $1',
+    query('getUser'),
     [body.username],
   );
   const [userObj] = result.rows;
-  // eslint-disable-next-line no-undef
+
   const { password: passwordDB } = userObj;
   bcrypt.compare(body.password, passwordDB, (err, isMatch) => {
     if (err) {

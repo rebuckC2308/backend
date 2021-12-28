@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const queries = require('../queries/queries');
 
 const requestBodyIsInvalid = (body) => Object.keys(body).length !== 2
   || !Object.keys(body).includes('username')
@@ -18,7 +19,7 @@ async function register(req, res, client) {
 
   try {
     await client.query(
-      'INSERT INTO users ("user", "password") VALUES ($1, $2)',
+      queries.query('insertUser'),
       [body.username, hashedPassword],
     );
   } catch (err) {
