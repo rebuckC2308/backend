@@ -7,11 +7,8 @@ exports.up = function (knex) {
       email text NOT NULL,
       password text NOT NULL,
       PRIMARY KEY (user_id)
-  );
-  
-  ALTER TABLE public.users
-      OWNER to postgres;`
-    )
+  );`
+  )
     .then((result) => console.log(result));
 };
 
