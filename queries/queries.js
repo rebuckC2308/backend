@@ -1,6 +1,6 @@
 const windowsQueries = {
-  getUser: 'SELECT * FROM USERS WHERE USERS.user = $1',
-  insertUser: 'INSERT INTO USERS.users ("username", "password") VALUES ($1, $2)',
+  getUser: 'SELECT * FROM public.USERS WHERE user = $1',
+  insertUser: 'INSERT INTO public.USERS ("username", "password") VALUES ($1, $2)',
 };
 
 const macQueries = {
