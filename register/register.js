@@ -23,7 +23,6 @@ async function register(req, res, client) {
       [body.username, hashedPassword],
     );
   } catch (err) {
-    console.log(err);
     if (err.code === '23505') {
       const errorMessage = 'This username is already taken. Please enter a new Username';
       return res.status(409).send({ errorMessage });
