@@ -1,5 +1,5 @@
 const windowsQueries = {
-  getUser: 'SELECT * FROM public.USERS WHERE user = $1',
+  getUser: 'SELECT * FROM public.USERS WHERE username = $1',
   insertUser: 'INSERT INTO public.USERS ("username", "password") VALUES ($1, $2)',
 };
 
