@@ -24,7 +24,7 @@ async function register(req, res, client) {
     );
   } catch (err) {
     if (err.code === '23505') {
-      const errorMessage = 'This username is already taken. Please enter a new Username';
+      const errorMessage = 'This username is already taken. Please enter a new username';
       return res.status(409).send({ errorMessage });
     }
 
