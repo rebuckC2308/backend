@@ -28,6 +28,11 @@ app.post('/login', async (req, res) => {
   login.login(req, res, client);
 });
 
+app.post('/createContest', async (req, res) => {
+  console.log('Create a Contest!');
+  res.send('response');
+});
+
 app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`App listening at http://localhost:${port}`);
