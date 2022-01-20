@@ -1,6 +1,7 @@
 const windowsQueries = {
   getUser: 'SELECT * FROM public.USERS WHERE username = $1',
   insertUser: 'INSERT INTO public.USERS ("username", "password") VALUES ($1, $2)',
+  insertContest: 'INSERT INTO public.Contests (creator, contestID) VALUES ($1, $2)',
 };
 
 const macQueries = {

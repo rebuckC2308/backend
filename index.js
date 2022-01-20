@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { Client } = require('pg');
 const express = require('express');
+const queries = require('./queries/queries');
 
 const app = express();
 const port = 3000;
@@ -29,7 +30,19 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/createContest', async (req, res) => {
-  console.log('Create a Contest!');
+  const { body } = req;
+  const contestId = Math.floor((Math.random() * 99999) + 1);
+  try {
+    await client.query(
+      queries.query('insertContest'),
+      [body.username, contestId],
+    );
+  } catch (err) {
+    if (err) {
+      const errorMessage = 'Error creating new contest';
+      return res.status(409).send({ errorMessage });
+    }
+  }
   res.send('response');
 });
 
