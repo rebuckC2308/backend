@@ -43,7 +43,7 @@ app.post('/createContest', async (req, res) => {
       return res.status(409).send({ errorMessage });
     }
   }
-  res.send('response');
+  return res.send('response');
 });
 
 app.listen(port, () => {
