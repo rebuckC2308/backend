@@ -2,11 +2,14 @@ const windowsQueries = {
   getUser: 'SELECT * FROM public.USERS WHERE username = $1',
   insertUser: 'INSERT INTO public.USERS ("username", "password") VALUES ($1, $2)',
   insertContest: 'INSERT INTO public.Contests (creator, contestID) VALUES ($1, $2)',
+  insertEntry: 'INSERT INTO public.entries (contestId, name, imageurl, description)VALUES ($1, $2, $3, $4)',
 };
 
 const macQueries = {
   getUser: 'SELECT * FROM USERS WHERE user = $1',
   insertUser: 'INSERT INTO users ("username", "password") VALUES ($1, $2)',
+  insertContest: 'INSERT INTO contests ("creator", "contestID") VALUES ($1, $2)',
+  insertEntry: 'INSERT INTO entries ("contestId", "name", "imageurl", "description")VALUES ($1, $2, $3, $4)',
 };
 
 const queries = {
