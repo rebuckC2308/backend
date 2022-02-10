@@ -3,6 +3,8 @@ const windowsQueries = {
   insertUser: 'INSERT INTO public.USERS ("username", "password") VALUES ($1, $2)',
   insertContest: 'INSERT INTO public.Contests (creator, contestID) VALUES ($1, $2)',
   insertEntry: 'INSERT INTO public.entries (contestId, name, imageurl, description)VALUES ($1, $2, $3, $4)',
+  getIDofContest: 'SELECT * FROM public.contests WHERE contestID = $1',
+  getAllEntries: 'SELECT * FROM public.entries WHERE contestID = 1',
 };
 
 const macQueries = {
