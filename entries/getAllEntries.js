@@ -5,7 +5,7 @@ async function getAllEntries(req, res, client) {
 
   const contestID = Number(body.id);
 
-  const result = await client.query(query('getAllEntries', [contestID]));
+  const result = await client.query(query('getAllEntries'), [contestID]);
 
   const entriesArray = result.rows;
 
