@@ -1,3 +1,4 @@
+const lodash = require('lodash');
 const { query } = require('../queries/queries');
 
 const genRandomNumber = (length) => {
@@ -13,19 +14,26 @@ const genRandomNumber = (length) => {
 
 async function contest(req, res, client) {
   const { body } = req;
-  const contestId = genRandomNumber(5);
+  const randomContestId = genRandomNumber(5);
   const errorMessage = 'Error creating new contest';
+  let contestId = -1;
+
   try {
-    await client.query(
+    const response = await client.query(
       query('insertContest'),
-      [body.username, contestId],
+      [body.username, randomContestId],
     );
+
+    contestId = lodash.get(response, 'rows[0].id', -1);
+    if (contestId < 0) {
+      return res.status(409).send({ errorMessage });
+    }
   } catch (err) {
     if (err) {
       return res.status(409).send({ errorMessage });
     }
   }
-  return res.status(201).send({ admin: body.username, contestId, errorMessage });
+  return res.status(201).send({ admin: body.username, randomContestId, contestId });
 }
 
 module.exports = { contest };

@@ -12,7 +12,6 @@ async function getContestEntries(req, res, client) {
   if (!contestObj) {
     return res.status(422).send({ errorMessage: 'Invalid Contest PIN. Please try again.' });
   }
-  //   console.log(contestObj);
   return res.status(200).send(contestObj);
 }
 

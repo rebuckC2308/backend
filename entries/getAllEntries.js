@@ -13,7 +13,6 @@ async function getAllEntries(req, res, client) {
     return res.status(422).send({ errorMessage: 'This contest does not have entries yet!' });
   }
 
-  //   console.log(entriesArray);
   return res.status(200).send(entriesArray);
 }
 
