@@ -4,10 +4,10 @@ const express = require('express');
 
 const app = express();
 const port = 3000;
-const register = require('./register/register');
-
 const client = new Client();
 client.connect();
+
+const register = require('./register/register');
 const login = require('./login/login');
 const { contest } = require('./contest/contest');
 const { createEntry } = require('./entries/createEntry');
