@@ -4,11 +4,15 @@ const express = require('express');
 
 const app = express();
 const port = 3000;
-const register = require('./register/register');
-
 const client = new Client();
 client.connect();
+
+const register = require('./register/register');
 const login = require('./login/login');
+const { contest } = require('./contest/contest');
+const { createEntry } = require('./entries/createEntry');
+const { getContestEntries } = require('./contest/getContestEntries');
+const { getAllEntries } = require('./entries/getAllEntries');
 
 app.use(express.json());
 
@@ -26,6 +30,22 @@ app.post('/register', async (req, res) => {
 
 app.post('/login', async (req, res) => {
   login.login(req, res, client);
+});
+
+app.post('/createContest', async (req, res) => {
+  contest(req, res, client);
+});
+
+app.post('/getContestEntries', async (req, res) => {
+  getContestEntries(req, res, client);
+});
+
+app.post('/getAllEntries', async (req, res) => {
+  getAllEntries(req, res, client);
+});
+
+app.post('/createEntry', async (req, res) => {
+  createEntry(req, res, client);
 });
 
 app.listen(port, () => {
