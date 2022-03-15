@@ -8,8 +8,8 @@ async function createEntry(req, res, client) {
   let succesfulResponse = {};
 
   const imagePath = imageUpload(body.imageURLTest);
-  console.log(body.imageURLTest);
-  console.log(body);
+  //   console.log(body.imageURLTest);
+  //   console.log(body);
 
   try {
     await client.query(query('insertEntry'), [
