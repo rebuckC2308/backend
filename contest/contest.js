@@ -23,6 +23,7 @@ async function contest(req, res, client) {
       query('insertContest'),
       [body.username, randomContestId],
     );
+    console.log(response);
 
     contestId = lodash.get(response, 'rows[0].id', -1);
     if (contestId < 0) {
