@@ -7,18 +7,27 @@ async function createEntry(req, res, client) {
   const errorMessage = 'Error creating new entry';
   let succesfulResponse = {};
 
-  const imagePath = imageUpload(body.imageURLTest);
+  const imagePath = await imageUpload(body.imageBytes);
   //   console.log(body.imageURLTest);
   //   console.log(body);
 
+  console.log('Im here');
+
   try {
+    console.log('Im here');
     await client.query(query('insertEntry'), [
       body.currentContestID,
-      body.name,
+      body.entryName,
       imagePath,
-      body.description,
+      body.entryDescription,
     ]);
 
+    console.log({
+      a: body.currentContestID,
+      b: body.entryName,
+      c: imagePath,
+      d: body.entryDescription,
+    });
     const response = await client.query(query('getAllEntries'), [
       body.currentContestID,
     ]);
@@ -28,10 +37,12 @@ async function createEntry(req, res, client) {
     };
     return res.status(200).send(succesfulResponse);
   } catch (err) {
+    console.log(err);
     if (err) {
       return res.status(409).send({ errorMessage });
     }
   }
+  console.log('HERE I AM');
   return res.status(200).send(succesfulResponse);
 }
 
