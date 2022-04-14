@@ -11,13 +11,15 @@ const s3 = new AWS.S3({
 
 async function imageUpload(image) {
   try {
-    const uniqueImgKey = uuid.v4();
+    const uniqueImgKey = `${uuid.v4()}.jpg`;
+    const buffer = Buffer.from(image, "base64");
 
     const params = {
       Bucket: process.env.BUCKET,
       Key: uniqueImgKey,
-      Body: image,
+      Body: buffer,
     };
+
     s3.upload(params, (err) => {
       if (err) {
         throw err;
