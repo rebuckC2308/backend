@@ -26,7 +26,6 @@ async function createEntry(req, res, client) {
     };
     return res.status(200).send(succesfulResponse);
   } catch (err) {
-    console.log(err);
     if (err) {
       return res.status(409).send({ errorMessage });
     }
